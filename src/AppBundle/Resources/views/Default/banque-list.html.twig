@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<h1>Les banques</h1>
+
+	{% if banques|length < 1 %}
+
+		<h3>Aucune entreprise n'a été trouvée!</h3>
+		
+	{% else %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>N</th>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for banque in banques %}
+					<tr>
+						<td>{{ loop.index }}</td>
+						<td>{{ banque.name }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% endif %}
+{% endblock %}

@@ -25,18 +25,22 @@ set('writable_dirs', array_merge(get('writable_dirs'), [
 
 set('git_recursive', false);
 
+set('deploy:assetic:dump', function() {
+	run('{{bin/console}} assetic:dump {{console_options}}');
+});
+
 
 // Hosts
 
-host('127.0.0.1')
-	->stage('production')
+host('production')
+	->hostname('127.0.0.1')
     ->set('deploy_path', '~/Workspace/public_html_demo/{{application}}')
 	->set('shared_files', [])
 	->set('http_user', 'www-data');
     ;    
 
-host('127.0.0.1')
-	->stage('test')
+host('test')
+	->hostname('127.0.0.1')
     ->set('deploy_path', '~/Workspace/public_html_demo/test/{{application}}')
 	->set('shared_files', [])
 	->set('http_user', 'www-data')
@@ -46,9 +50,7 @@ after('deploy', 'deploy:done');
     
 // Tasks
 
-task('deploy:done', function() {
-	run('dep deploy production');
-});
+task('deploy:done', 'dep list');
 
 task('build', function () {
     run('cd {{release_path}} && build');
